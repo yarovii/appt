@@ -1,4 +1,7 @@
 package eu.cz.yarovii.project.mouseEvents;
 
-public class EventListner {
+import eu.cz.yarovii.project.mouseEvents.type.MouseButton;
+
+public interface EventListener {
+    public void onEvent(MouseButton mp);
 }

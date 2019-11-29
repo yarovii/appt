@@ -1,7 +1,6 @@
 package eu.cz.yarovii.project.enemyUtil;
 
 import eu.cz.yarovii.project.Application;
-import eu.cz.yarovii.project.mouseEvents.EventListener;
 
 import java.awt.*;
 

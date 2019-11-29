@@ -3,9 +3,8 @@ package eu.cz.yarovii.project;
 import eu.cz.yarovii.project.core.Window;
 import eu.cz.yarovii.project.enemyUtil.EnemyHandler;
 import eu.cz.yarovii.project.enemyUtil.enemies.BigEnemy;
-import eu.cz.yarovii.project.mouseEvents.EventController;
 import eu.cz.yarovii.project.mouseEvents.type.MousePressed;
-import eu.cz.yarovii.project.mouseEvents.type.MouseReleased;
+import eu.cz.yarovii.project.view.GameOver;
 import eu.cz.yarovii.project.view.Hud;
 import eu.cz.yarovii.project.view.Spawn;
 
@@ -17,26 +16,27 @@ import java.util.Random;
 
 public class Application extends Canvas implements Runnable{
     public static final int WIDTH = 960, HEIGHT=640;
-    private boolean isRunning;
+    public boolean isRunning;
     private Thread thread;
     EnemyHandler handler;
-    private Window window;
     private BufferStrategy bs;
     private Graphics g;
     private Spawn spawner;
     private Random r;
     private Hud hud;
-    private EventController controller;
+    private GameOver gameOver;
+    private static boolean isStopped;
 
 
     public Application() {
+        isStopped = false;
         handler = new EnemyHandler();
         r = new Random();
         hud = Hud.getInstance();
         new Window("Application", WIDTH, HEIGHT, this);
         start();
-
-        spawner = new Spawn(handler);
+        gameOver = new GameOver(handler);
+        spawner = new Spawn(handler, this, gameOver);
 
         handler.addEnemy(new BigEnemy(r.nextInt(WIDTH),r.nextInt(HEIGHT), handler));
 
@@ -44,11 +44,10 @@ public class Application extends Canvas implements Runnable{
             @Override
             public void mousePressed(MouseEvent e) {
                 MousePressed event = new MousePressed(e.getX(), e.getY(), e.getButton());
-                handler.onEvent(event);
-            }
-            public void mouseReleased(MouseEvent e) {
-                MouseReleased event = new MouseReleased(e.getButton(), e.getX(), e.getY());
-                handler.onEvent(event);
+                if(!isStopped)
+                    handler.onEvent(event);
+                else
+                    gameOver.onEvent(event);
             }
         });
     }
@@ -59,7 +58,6 @@ public class Application extends Canvas implements Runnable{
         double ns = 1000000000/amountOfTicks;
         double delta=0;
         long timer = System.currentTimeMillis();
-        int frames = 0;
 
         while (isRunning){
             long now = System.nanoTime();
@@ -74,12 +72,8 @@ public class Application extends Canvas implements Runnable{
             if(isRunning)
                 render();
 
-            frames++;
-
             if(System.currentTimeMillis()-timer > 1000){
                 timer+=1000;
-                //System.out.println("FPS "+frames);
-                frames = 0;
             }
         }
         stop();
@@ -111,6 +105,8 @@ public class Application extends Canvas implements Runnable{
 
         handler.render(g);
         hud.render(g);
+        if(isStopped)
+            gameOver.render(g);
         g.dispose();
         bs.show();
     }
@@ -120,4 +116,11 @@ public class Application extends Canvas implements Runnable{
         handler.tick();
     }
 
+    public static boolean isIsStopped() {
+        return isStopped;
+    }
+
+    public static void setIsStopped(boolean isStopped) {
+        Application.isStopped = isStopped;
+    }
 }
