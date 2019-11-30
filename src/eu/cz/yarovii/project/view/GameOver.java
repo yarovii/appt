@@ -58,7 +58,7 @@ public class GameOver {
 
     public void onEvent(MouseButton e) {
         if (getBoundsPlay().contains(new Point(e.getX(), e.getY()))) {
-            hud = Hud.getInstance(hud.bestScore);
+            hud = Hud.getInstance();
             handler.removeAllEnemies();
             spawn.localCount =0;
 

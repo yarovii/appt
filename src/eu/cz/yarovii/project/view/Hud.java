@@ -9,13 +9,11 @@ public class Hud {
     public static long hiddenScore=0;
     public static long level=1;
 
+
     private Hud() {
-    }
-    private Hud(long sc) {
         score=0;
         hiddenScore=0;
         level=1;
-        this.bestScore = sc;
     }
 
     public void tick(){
@@ -35,8 +33,5 @@ public class Hud {
     {
         return new Hud();
     }
-    public static Hud getInstance(long sc)
-    {
-        return new Hud(sc);
-    }
+
 }

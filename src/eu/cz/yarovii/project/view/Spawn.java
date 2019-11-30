@@ -24,7 +24,7 @@ public class Spawn {
     }
 
     public void tick(){
-        if(handler.getCountEnemy() <= 6) {
+        if(handler.getCountEnemy() <= 1) {
             app.setIsStopped(false);
             localCount = 0;
             if (hud.hiddenScore % 70 == 0) {
