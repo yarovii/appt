@@ -24,11 +24,14 @@ public class Spawn {
     }
 
     public void tick(){
-        if(handler.getCountEnemy() <= 1) {
+        if(handler.getCountEnemy() <= 6) {
             app.setIsStopped(false);
             localCount = 0;
             if (hud.hiddenScore % 70 == 0) {
-                handler.addEnemy(new BigEnemy(r.nextInt(app.WIDTH), r.nextInt(app.HEIGHT), handler));
+                int rX = r.nextInt(app.WIDTH);
+                int rY = r.nextInt(app.HEIGHT);
+                handler.addEnemy(new BigEnemy(rX, rY, handler));
+
                 if (hud.score >= newLevel) {
                     hud.level++;
                     newLevel += 120;

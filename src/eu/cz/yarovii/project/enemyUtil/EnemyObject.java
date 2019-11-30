@@ -16,13 +16,22 @@ public abstract class EnemyObject {
         this.x = x;
         this.y = y;
         this.handler = handler;
+        checkIfWindow();
+    }
+
+    //Check if object has location in window
+    private void checkIfWindow(){
+        if(x+width >= Application.WIDTH)
+            this.x = Application.WIDTH-width;
+        if(y+height >= Application.HEIGHT)
+            this.y = Application.HEIGHT-height;
     }
 
     public void tick(){
         x += velX;
         y += velY;
-        if(y <= 0 || y >= Application.HEIGHT-height*1.5) velY *= -1;
-        if(x <= 0 || x >= Application.WIDTH-width) velX *= -1;
+        if(y <= 0 || y > Application.HEIGHT-(height*1.5)+(height%2)){ velY *= -1;}
+        if(x <= 0 || x > Application.WIDTH-width) velX *= -1;
     }
 
     public void render(Graphics g){
