@@ -5,7 +5,6 @@ import eu.cz.yarovii.project.mouseEvents.EventType;
 public class MouseButton {
     private int x, y, keyCode;
     private EventType event;
-    public boolean handled;
 
     public MouseButton(int x, int y, int keyCode, EventType event) {
         this.x = x;

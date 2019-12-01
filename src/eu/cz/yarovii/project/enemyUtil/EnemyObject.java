@@ -10,12 +10,10 @@ public abstract class EnemyObject {
     private int velX, velY;  // speed
     private Color color;  //color of Enemy
     private int value;
-    private EnemyHandler handler;
 
-    public EnemyObject(int x, int y, EnemyHandler handler) {
+    public EnemyObject(int x, int y) {
         this.x = x;
         this.y = y;
-        this.handler = handler;
         checkIfWindow();
     }
 
@@ -30,6 +28,7 @@ public abstract class EnemyObject {
     public void tick(){
         x += velX;
         y += velY;
+        //Check if it is edges of window
         if(y <= 0 || y > Application.HEIGHT-(height*1.5)+(height%2)){ velY *= -1;}
         if(x <= 0 || x > Application.WIDTH-width) velX *= -1;
     }
@@ -38,6 +37,7 @@ public abstract class EnemyObject {
         g.setColor(color);
         g.fillRect(x, y, width, height);
     }
+
     public Rectangle getBounds(){
         return new Rectangle(x, y,width,height);
     }

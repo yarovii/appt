@@ -2,29 +2,23 @@ package eu.cz.yarovii.project.view;
 
 import eu.cz.yarovii.project.Application;
 import eu.cz.yarovii.project.enemyUtil.EnemyHandler;
+import eu.cz.yarovii.project.mouseEvents.EventListener;
 import eu.cz.yarovii.project.mouseEvents.type.MouseButton;
 
 import java.awt.*;
 
-public class GameOver {
-    private Application app;
+public class GameOver implements EventListener {
     private Hud hud;
     private EnemyHandler handler;
     private Spawn spawn;
-
-    public GameOver(EnemyHandler handler, Spawn spawn) {
-        this.handler = handler;
-        this.spawn = spawn;
-    }
 
     public GameOver(EnemyHandler handler) {
         this.handler = handler;
     }
 
-
     public void render(Graphics g){
         g.setColor(Color.DARK_GRAY);
-        g.fillRect(app.WIDTH/2 - 700/2, app.HEIGHT/2 - 400/2, 700, 400);
+        g.fillRect(Application.WIDTH/2 - 700/2, Application.HEIGHT/2 - 400/2, 700, 400);
 
         Font fnt = new Font("arial", 1, 50);
         g.setColor(Color.WHITE);
@@ -49,24 +43,22 @@ public class GameOver {
         this.spawn = spawn;
     }
 
-    public Rectangle getBoundsPlay(){
+    public Rectangle getBoundsPlayButton(){
         return new Rectangle(240,350,200,64);
     }
-    public Rectangle getBoundsQuit(){
+    public Rectangle getBoundsQuitButton(){
         return new Rectangle(500,350,200,64);
     }
 
     public void onEvent(MouseButton e) {
-        if (getBoundsPlay().contains(new Point(e.getX(), e.getY()))) {
+        if (getBoundsPlayButton().contains(new Point(e.getX(), e.getY()))) {
             hud = Hud.getInstance();
             handler.removeAllEnemies();
             spawn.localCount =0;
-
-
-        }else if(getBoundsQuit().contains(new Point(e.getX(), e.getY()))){
+        }
+        else if(getBoundsQuitButton().contains(new Point(e.getX(), e.getY()))){
             System.exit(1);
         }
     }
-    private void reload(){}
 
 }

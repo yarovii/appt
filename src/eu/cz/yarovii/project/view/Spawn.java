@@ -10,42 +10,41 @@ import java.util.Random;
 public class Spawn {
     private EnemyHandler handler;
     private Hud hud = Hud.getInstance();
-    private Application app;
     private Random r = new Random();
     private long newLevel=120;
     public int localCount;  //counts if there 12 or more enemies for a long time
     private GameOver gameOver;
 
-    public Spawn(EnemyHandler handler, Application app, GameOver gameOver) {
+    public Spawn(EnemyHandler handler, GameOver gameOver) {
         this.handler = handler;
-        this.app = app;
         this.gameOver = gameOver;
         localCount =0;
     }
 
     public void tick(){
         if(handler.getCountEnemy() <= 6) {
-            app.setIsStopped(false);
+            Application.setIsStopped(false);
             localCount = 0;
             if (hud.hiddenScore % 70 == 0) {
-                int rX = r.nextInt(app.WIDTH);
-                int rY = r.nextInt(app.HEIGHT);
-                handler.addEnemy(new BigEnemy(rX, rY, handler));
+                int rX = r.nextInt(Application.WIDTH);
+                int rY = r.nextInt(Application.HEIGHT);
+                handler.addEnemy(new BigEnemy(rX, rY));
 
                 if (hud.score >= newLevel) {
                     hud.level++;
                     newLevel += 120;
                 }
-            } else if (hud.hiddenScore % 200 == 0) {
-                handler.addEnemy(new SpeedyEnemy(r.nextInt(app.WIDTH), r.nextInt(app.HEIGHT), handler));
             }
-        }else if(localCount >= 120){
+            else if (hud.hiddenScore % 200 == 0) {
+                handler.addEnemy(new SpeedyEnemy(r.nextInt(Application.WIDTH), r.nextInt(Application.HEIGHT)));
+            }
+        }
+        else if(localCount >= 120){
             gameOver.stopAllEnemies(handler, this);
-            app.setIsStopped(true);
+            Application.setIsStopped(true);
             localCount=0;
         }
         else
             localCount++;
-
     }
 }

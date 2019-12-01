@@ -43,12 +43,14 @@ public class EnemyHandler implements EventListener {
        enemies.remove(eo);
         countEnemy--;
     }
+
     public void stopAllEnemies(){
         for(int i=0; i<enemies.size(); i++){
             enemies.get(i).setVelX(0);
             enemies.get(i).setVelY(0);
         }
     }
+
     public void removeAllEnemies(){
         for(int i=enemies.size()-1; i>=0; i--){
             enemies.remove(enemies.get(i));
