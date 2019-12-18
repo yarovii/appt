@@ -4,7 +4,7 @@ import eu.cz.yarovii.project.Application;
 
 import java.awt.*;
 
-public abstract class EnemyObject {
+public class EnemyObject {
     private int x, y; //current location
     private int width, height; //size of Enemy
     private int velX, velY;  // speed
